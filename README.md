@@ -116,3 +116,139 @@ Predict the probability of a candidate working for the company on the test set.
 
 ## Initial Data Exploration
 The initial exploration of the training and test datasets involves checking the shape, data types, and missing values, as well as summarizing the quantiles of numerical features.
+
+# Imbalanced Dataset Analysis and Summary
+
+This project involves analyzing an imbalanced dataset, identifying categorical and numerical features, and summarizing the data using various functions. The goal is to understand the distribution of the target variable and its relationship with other features.
+
+## Dataset Overview
+
+The dataset has the following characteristics:
+- **Observations**: 21,287
+- **Variables**: 14
+- **Imbalance in Target Variable**:
+  - 0.0: 63.94%
+  - 1.0: 21.36%
+
+## Column Categories
+
+Columns are categorized into categorical, numerical, categorical but cardinal, and numerical but categorical.
+
+### Grabbing Column Names
+
+The `grab_col_names` function identifies and categorizes columns based on their data types and the number of unique values.
+
+- **Categorical Columns**: These columns contain categorical data, such as 'gender' and 'relevent_experience'.
+- **Numerical Columns**: These columns contain numerical data, such as 'city_development_index' and 'training_hours'.
+- **Categorical but Cardinal Columns**: These are categorical columns with a high number of unique values, such as 'city' and 'experience'.
+- **Numerical but Categorical Columns**: These are numerical columns that have a low number of unique values, such as 'enrollee_id' and 'target'.
+
+After running the function, the following column counts were identified:
+
+- **Categorical columns**: 10 columns, e.g., 'gender', 'relevent_experience'
+- **Numerical columns**: 2 columns, e.g., 'city_development_index', 'training_hours'
+- **Categorical but Cardinal columns**: 2 columns, e.g., 'city', 'experience'
+- **Numerical but Categorical columns**: 2 columns, e.g., 'enrollee_id', 'target'
+
+### Summary of Categorical Columns
+
+The `cat_summary` function provides a summary of each categorical column, including the count and ratio of each category. For example:
+
+- **Gender**:
+  - Male: 68.97%
+  - Female: 6.46%
+  - Other: 1.01%
+
+This indicates that the majority of the observations are male.
+
+- **Relevant Experience**:
+  - Has relevant experience: 71.95%
+  - No relevant experience: 28.05%
+
+This shows that most individuals in the dataset have relevant experience.
+
+- **Enrolled University**:
+  - No enrollment: 72.04%
+  - Full-time course: 19.69%
+  - Part-time course: 6.30%
+
+This suggests that the majority of individuals are not enrolled in any university.
+
+### Target Summary with Categorical Columns
+
+The `target_summary_with_cat` function shows the relationship between the target variable and each categorical column. It provides the mean and count of the target variable for each category. For example:
+
+- **Gender**:
+  - Female: Target Mean = 0.261, Count = 1,171
+  - Male: Target Mean = 0.228, Count = 12,532
+  - Other: Target Mean = 0.258, Count = 178
+
+This indicates that the average target value is slightly higher for females compared to males and others.
+
+- **Relevant Experience**:
+  - Has relevant experience: Target Mean = 0.215, Count = 13,072
+  - No relevant experience: Target Mean = 0.341, Count = 5,086
+
+This shows that individuals with no relevant experience have a higher average target value.
+
+- **Enrolled University**:
+  - Full-time course: Target Mean = 0.383, Count = 3,566
+  - Part-time course: Target Mean = 0.251, Count = 1,146
+  - No enrollment: Target Mean = 0.212, Count = 13,087
+
+This suggests that individuals enrolled in full-time courses have a higher average target value.
+
+- **Education Level**:
+  - Graduate: Target Mean = 0.281, Count = 10,990
+  - Masters: Target Mean = 0.214, Count = 4,146
+  - High School: Target Mean = 0.198, Count = 1,913
+  - Phd: Target Mean = 0.145, Count = 387
+  - Primary School: Target Mean = 0.131, Count = 290
+
+This indicates that individuals with a higher education level (Graduate) have a higher average target value, while those with a lower education level (Primary School) have a lower average target value.
+
+- **Major Discipline**:
+  - STEM: Target Mean = 0.262, Count = 13,738
+  - Humanities: Target Mean = 0.216, Count = 629
+  - Other: Target Mean = 0.273, Count = 362
+  - Business Degree: Target Mean = 0.266, Count = 312
+  - Arts: Target Mean = 0.209, Count = 244
+  - No Major: Target Mean = 0.256, Count = 211
+
+This shows that individuals with a STEM major have a slightly higher average target value compared to those with other majors.
+
+- **Company Size**:
+  - 10/49: Target Mean = 0.236, Count = 1,389
+  - 100-500: Target Mean = 0.160, Count = 2,420
+  - 1000-4999: Target Mean = 0.153, Count = 1,266
+  - 10000+: Target Mean = 0.195, Count = 1,900
+  - 50-99: Target Mean = 0.175, Count = 2,919
+  - 500-999: Target Mean = 0.172, Count = 837
+  - <10: Target Mean = 0.172, Count = 1,254
+  - 5000-9999: Target Mean = 0.183, Count = 530
+
+This indicates that individuals working in smaller companies (10-49 employees) have a higher average target value compared to those in larger companies (100-500 employees).
+
+- **Company Type**:
+  - Pvt Ltd: Target Mean = 0.181, Count = 9,300
+  - Funded Startup: Target Mean = 0.139, Count = 953
+  - Public Sector: Target Mean = 0.223, Count = 902
+  - Early Stage Startup: Target Mean = 0.242, Count = 571
+  - NGO: Target Mean = 0.188, Count = 484
+  - Other: Target Mean = 0.237, Count = 118
+
+This shows that individuals working in early-stage startups have a higher average target value compared to those in other types of companies.
+
+- **Last New Job**:
+  - 1 year: Target Mean = 0.266, Count = 7,620
+  - 2 years: Target Mean = 0.240, Count = 2,751
+  - 3 years: Target Mean = 0.224, Count = 973
+  - 4 years: Target Mean = 0.223, Count = 972
+  - >4 years: Target Mean = 0.182, Count = 3,118
+  - Never: Target Mean = 0.306, Count = 2,318
+
+This indicates that individuals who have never changed their job have a higher average target value compared to those who have changed jobs more recently.
+
+## Conclusion
+
+The analysis helps in understanding the distribution of categorical features and their relationship with the target variable, which is crucial for handling imbalanced datasets and making informed decisions in the data preprocessing and modeling phases.
