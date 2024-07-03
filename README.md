@@ -2,7 +2,15 @@
 
 Dataset: https://www.kaggle.com/arashnic/hr-analytics-job-change-of-data-scientists
 
-# HR Analytics: Job Change of Data Scientists
+## Dependencies
+- Python 3.x
+- Required Libraries: Pandas, NumPy, Scikit-learn, LightGBM, Missingno, Matplotlib, Seaborn
+
+## Usage
+- Clone the Repository: git clone https://github.com/your_username/hr-analytics.git
+- Install Dependencies: pip install -r requirements.txt
+- Run Jupyter Notebooks: Navigate to notebooks and run jupyter notebook to execute the analysis and model building notebooks.
+
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -248,7 +256,5 @@ This shows that individuals working in early-stage startups have a higher averag
   - Never: Target Mean = 0.306, Count = 2,318
 
 This indicates that individuals who have never changed their job have a higher average target value compared to those who have changed jobs more recently.
-
-## Conclusion
 
 The analysis helps in understanding the distribution of categorical features and their relationship with the target variable, which is crucial for handling imbalanced datasets and making informed decisions in the data preprocessing and modeling phases.
