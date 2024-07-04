@@ -100,33 +100,33 @@ The dataset contains the following features:
 
 ## Approach
 
-### Step 1: Data Splitting
+**Step 1: Data Splitting**
 
 The training dataset is divided into two parts for validation:
 - **train**: The main training set.
 - **test_X**: A subset of the training set (first 1000 rows) used for validation, with the target variable dropped.
 
-### Step 2: Merging Datasets
+**Step 2: Merging Datasets**
 
 Merge the `train` and `test_X` datasets with the `test` set that already exists.
 
-### Step 3: Feature Transformation
+**Step 3: Feature Transformation**
 
 Perform feature transformation to prepare the data for modeling.
 
-### Step 4: Handling Missing Values
+**Step 4: Handling Missing Values**
 
 Use KNN imputer to fill missing values in the dataset.
 
-### Step 5: Model Selection and Training
+**Step 5: Model Selection and Training**
 
 Use the Light GBM algorithm for prediction due to its efficiency and speed, especially with large datasets.
 
-### Step 6: Model Evaluation
+**Step 6: Model Evaluation**
 
 Evaluate the model using log-loss and roc-auc score to prevent overfitting and ensure correct classification.
 
-### Step 7: Prediction
+**Step 7: Prediction**
 
 Predict the probability of a candidate working for the company on the test set.
 
@@ -339,4 +339,65 @@ The `training_hours` column shows the average value for each target class:
 
 This suggests that the average `training_hours` are slightly higher for observations with target value 0.0 compared to those with target value 1.0.
 
+## Missing Data Visualization
 
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/missing%20values.png)
+
+This section outlines the extent of missing data within the dataset, highlighting variables with varying degrees of completeness.
+
+### Variables with the Highest Proportion of Missing Data
+
+- **company_type**: 31.82% missing
+- **company_size**: 30.82% missing
+- **gender**: 23.56% missing
+
+### Variables with Moderate Levels of Missing Data
+
+- **major_discipline**: 14.68% missing
+- **target**: 14.70% missing
+
+### Variables with Low Levels of Missing Data
+
+- **last_new_job**: 2.18% missing
+- **education_level**: 2.41% missing
+- **enrolled_university**: 1.96% missing
+- **experience**: 0.33% missing
+
+### Variables with No Missing Data
+
+- **enrollee_id**
+- **city**
+- **city_development_index**
+- **relevent_experience**
+- **training_hours**
+
+This missing data pattern suggests that information related to companies (type and size) and personal attributes (gender, major discipline) are the most challenging to collect completely. The substantial amount of missing data in these fields could impact analyses and may require careful handling in any modeling or decision-making processes based on this dataset.
+
+Understanding the distribution and extent of missing data is crucial for:
+
+- **Data Cleaning**: Determining the appropriate strategies for imputation or removal.
+- **Modeling**: Ensuring that models are robust to missing data or appropriately handle it.
+- **Decision Making**: Recognizing the potential biases introduced by missing data and adjusting analyses accordingly.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/heatmap.png)
+
+The heatmap shows the correlations between different categorical variables in the dataset. 
+
+**Key observations:**
+
+**- Strong correlation:** The strongest correlation (0.8) is between company_size and company_type. This suggests that certain company types are strongly associated with specific company sizes.
+
+**- Moderate correlations:**
+
+Major_discipline and education_level (0.4): This indicates some relationship between a person's education level and their field of study.
+Major_discipline and experience (0.4): Suggests a link between a person's field of study and their work experience.
+Company_size and experience (0.3): Implies that work experience may be related to the size of the company a person works for.
+
+
+**Weak correlations:** Most other variable pairs show weak correlations (0.1 or 0.2), indicating limited relationships between these factors.
+Gender correlations: Gender shows weak correlations (0.1) with most other variables, suggesting gender may not be strongly associated with other factors in this dataset.
+Last_new_job: This variable shows consistently weak correlations (0.1-0.2) with all other variables, indicating that the timing of a person's last job change might not be strongly related to other factors.
+**Symmetry:** The heatmap is symmetrical, as correlation matrices typically are.
+**No negative correlations:** All visible correlations are positive (blue shades), with no negative correlations (which would be shown in red) apparent.
+
+This heatmap provides insights into the relationships between various categorical variables in the dataset, which could be useful for understanding patterns in employment, education, and company characteristics.
