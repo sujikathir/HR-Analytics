@@ -213,8 +213,8 @@ This suggests that the majority of individuals are not enrolled in any universit
 
 ![](https://github.com/sujikathir/HR-Analytics/blob/main/source/9.%20target%20.png)
 
-   - 0.0: 75.00%
-   - 1.0: 25.00%
+   - Target 0.0: 75.00%
+   - Target 1.0: 25.00%
      
 ### Target Summary with Categorical Columns
 
@@ -310,7 +310,7 @@ This shows that individuals working in early-stage startups have a higher averag
   - 2 years: Target Mean = 0.240, Count = 2,751
   - 3 years: Target Mean = 0.224, Count = 973
   - 4 years: Target Mean = 0.223, Count = 972
-  - >4 years: Target Mean = 0.182, Count = 3,118
+  - Greater than 4 years: Target Mean = 0.182, Count = 3,118
   - Never: Target Mean = 0.306, Count = 2,318
 
 This indicates that individuals who have never changed their job have a higher average target value compared to those who have changed jobs more recently.
