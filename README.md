@@ -348,27 +348,37 @@ This section outlines the extent of missing data within the dataset, highlightin
 ### Variables with the Highest Proportion of Missing Data
 
 - **company_type**: 31.82% missing
+
 - **company_size**: 30.82% missing
+
 - **gender**: 23.56% missing
 
 ### Variables with Moderate Levels of Missing Data
 
 - **major_discipline**: 14.68% missing
+
 - **target**: 14.70% missing
 
 ### Variables with Low Levels of Missing Data
 
 - **last_new_job**: 2.18% missing
+
 - **education_level**: 2.41% missing
+
 - **enrolled_university**: 1.96% missing
+
 - **experience**: 0.33% missing
 
 ### Variables with No Missing Data
 
 - **enrollee_id**
+
 - **city**
+
 - **city_development_index**
+
 - **relevent_experience**
+
 - **training_hours**
 
 This missing data pattern suggests that information related to companies (type and size) and personal attributes (gender, major discipline) are the most challenging to collect completely. The substantial amount of missing data in these fields could impact analyses and may require careful handling in any modeling or decision-making processes based on this dataset.
@@ -376,7 +386,9 @@ This missing data pattern suggests that information related to companies (type a
 Understanding the distribution and extent of missing data is crucial for:
 
 - **Data Cleaning**: Determining the appropriate strategies for imputation or removal.
+
 - **Modeling**: Ensuring that models are robust to missing data or appropriately handle it.
+
 - **Decision Making**: Recognizing the potential biases introduced by missing data and adjusting analyses accordingly.
 
 ![](https://github.com/sujikathir/HR-Analytics/blob/main/source/heatmap.png)
@@ -385,19 +397,246 @@ The heatmap shows the correlations between different categorical variables in th
 
 **Key observations:**
 
-**- Strong correlation:** The strongest correlation (0.8) is between company_size and company_type. This suggests that certain company types are strongly associated with specific company sizes.
+**Strong correlation:** The strongest correlation (0.8) is between company_size and company_type. This suggests that certain company types are strongly associated with specific company sizes.
 
-**- Moderate correlations:**
+**Moderate correlations:**
 
-Major_discipline and education_level (0.4): This indicates some relationship between a person's education level and their field of study.
-Major_discipline and experience (0.4): Suggests a link between a person's field of study and their work experience.
-Company_size and experience (0.3): Implies that work experience may be related to the size of the company a person works for.
+- Major_discipline and education_level (0.4): This indicates some relationship between a person's education level and their field of study.
+
+- Major_discipline and experience (0.4): Suggests a link between a person's field of study and their work experience.
+
+- Company_size and experience (0.3): Implies that work experience may be related to the size of the company a person works for.
 
 
 **Weak correlations:** Most other variable pairs show weak correlations (0.1 or 0.2), indicating limited relationships between these factors.
-Gender correlations: Gender shows weak correlations (0.1) with most other variables, suggesting gender may not be strongly associated with other factors in this dataset.
-Last_new_job: This variable shows consistently weak correlations (0.1-0.2) with all other variables, indicating that the timing of a person's last job change might not be strongly related to other factors.
+
+- Gender correlations: Gender shows weak correlations (0.1) with most other variables, suggesting gender may not be strongly associated with other factors in this dataset.
+
+- Last_new_job: This variable shows consistently weak correlations (0.1-0.2) with all other variables, indicating that the timing of a person's last job change might not be strongly related to other factors.
+
 **Symmetry:** The heatmap is symmetrical, as correlation matrices typically are.
+
 **No negative correlations:** All visible correlations are positive (blue shades), with no negative correlations (which would be shown in red) apparent.
 
 This heatmap provides insights into the relationships between various categorical variables in the dataset, which could be useful for understanding patterns in employment, education, and company characteristics.
+
+## Handling Multiclass Categorical Columns
+
+To handle multiclass categorical columns, label encoding is applied before filling the missing values.
+
+### Identifying Multiclass Categorical Columns
+
+The code identifies multiclass categorical columns, which are columns with more than two unique values and a data type of object (categorical).
+
+### Applying Label Encoding
+
+Label encoding is applied to all identified multiclass categorical columns to convert categorical values into numerical values before performing any imputation.
+
+## KNN Imputation and Model Evaluation
+
+To find the optimal number of neighbors for KNN imputation, a function (`knn_imputer_test`) is used. This function tests different `n_neighbors` values and identifies the one that provides the best ROC AUC score using the LightGBM (LGBM) classifier.
+
+### Function to Test KNN Imputer
+
+The `knn_imputer_test` function performs the following steps:
+
+1. **Data Preparation**: Creates a copy of the dataset and identifies columns with missing values.
+
+2. **KNN Imputation**: Applies KNN imputation with different `n_neighbors` values to fill the missing values.
+
+3. **Model Training and Evaluation**: Splits the imputed dataset into training and testing sets, upscales the data using SMOTE, trains a LightGBM model, and evaluates it using the ROC AUC score.
+
+4. **Identifying the Best `n_neighbors`**: Tracks and returns the `n_neighbors` value that provides the highest ROC AUC score.
+
+### Running the KNN Imputer Test
+
+The function is executed to determine the best `n_neighbors` value for KNN imputation, aiming to maximize the ROC AUC score.
+
+### Results of KNN Imputer Test
+
+The function outputs the ROC AUC scores for different `n_neighbors` values and identifies the optimal `n_neighbors` value that achieves the highest ROC AUC score.
+
+### Columns to be Filled
+
+The columns identified for imputation are those with missing values excluding the target variable and the `enrollee_id`.
+
+## Model Training and Evaluation After KNN Imputation
+
+After completing the KNN imputation to fill in the missing values, the dataset is split into training and testing sets. The LGBM (LightGBM) model is then trained on the training set, and its performance is evaluated on both the training and testing sets.
+
+### Training the Model
+
+The LGBM model is fitted on the training set, allowing it to learn the patterns and relationships within the data. This involves:
+
+- **Model Fitting**: The LGBM model is trained on the training data using the identified features and target variable.
+
+- **Prediction**: The model makes predictions on both the training and testing sets.
+
+- **Evaluation**: The performance of the model is evaluated using metrics such as precision, recall, F1-score, and ROC AUC score. This helps in understanding how well the model generalizes to unseen data.
+
+## Plotting the Learning Curve
+
+### Function to Plot Learning Curve
+
+A function `plot_learning_curve` is defined to plot the logistic loss values for training and testing sets over different sizes of training data.
+
+- **Iterative Training**: The model is trained on increasing sizes of the training data, and the logistic loss is calculated for both the training and testing sets.
+
+- **Plotting**: The training and testing loss values are plotted to visualize the learning curve.
+
+### Initial Learning Curve
+
+The function is used to plot the learning curve for the initial dataset before any data upscaling is applied.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/training%20learning%20curve.png)
+
+## Data Upscaling
+
+To handle the class imbalance in the dataset, Synthetic Minority Over-sampling Technique (SMOTE) is applied multiple times to create a balanced dataset.
+
+- **SMOTE Application**: SMOTE is applied three times, generating synthetic samples for the minority class.
+
+- **Concatenation**: The resulting datasets from each SMOTE application are concatenated to form a final balanced dataset.
+
+- **Class Distribution**: The final dataset has an equal number of samples for each class, ensuring balanced class distribution.
+
+## Plotting the Learning Curve After Upscaling
+
+The learning curve is plotted again using the upscaled dataset to observe any improvements in the model's performance.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/upscaled%20-%20training%20learning%20curve.png)
+
+## Model Training and Evaluation
+
+### Splitting the Data
+
+The upscaled dataset is split into training and validation sets.
+
+### Training the Model
+
+The LGBM model is trained on the training set.
+
+### Training Set Evaluation
+
+- **Predictions and Probabilities**: The model's predictions and predicted probabilities are obtained for the training set.
+
+- **Classification Report**: The classification report is generated, showing precision, recall, and F1-score for each class.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/training%20.png)
+
+- **ROC AUC Score**: The ROC AUC score is calculated for the training set, indicating the model's performance.
+
+### Validation Set Evaluation
+
+- **Predictions and Probabilities**: The model's predictions and predicted probabilities are obtained for the validation set.
+
+- **Classification Report**: The classification report is generated, showing precision, recall, and F1-score for each class.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/validation.png)
+
+- **ROC AUC Score**: The ROC AUC score is calculated for the validation set, indicating the model's performance.
+
+## Model Tuning
+
+### Hyperparameter Tuning
+
+A grid search is performed to tune the hyperparameters of the LGBM model using cross-validation.
+
+- **Hyperparameter Grid**: A range of values for `num_leaves`, `max_depth`, `learning_rate`, and `n_estimators` is defined.
+
+- **Grid Search**: The grid search is performed using 5-fold cross-validation to identify the best combination of hyperparameters.
+
+- **Best Parameters**: The best hyperparameters are identified from the grid search results.
+
+### Results of Hyperparameter Tuning
+
+The best hyperparameters for the LGBM model are:
+- `num_leaves`: 50
+- `max_depth`: 8
+- `learning_rate`: 0.02
+- `n_estimators`: 1000
+
+These hyperparameters are expected to optimize the model's performance.
+
+## Final Model Training and Evaluation
+
+After tuning the model, the final LGBM (LightGBM) model is trained with the best hyperparameters obtained from the GridSearchCV process. This final model is then evaluated on the validation set and the test set to ensure its robustness and accuracy.
+
+### Training the Final Model
+
+The final LGBM model is trained using the best hyperparameters identified during the model tuning process:
+
+- **Model Fitting**: The LGBM model is trained on the training data with the optimal hyperparameters.
+
+- **Prediction**: Predictions are made on the validation set to evaluate the model's performance.
+
+### Validation Set Evaluation
+
+The model's performance on the validation set is assessed using the following metrics:
+
+- **Classification Report**: Precision, recall, F1-score, and support are computed to provide a detailed evaluation of the model's performance.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/final%20model%20validation.png)
+
+- **ROC AUC Score**: The ROC AUC score is calculated to measure the model's ability to distinguish between the classes.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/ROC%20Curve%20-%20validation%20data.png)
+
+- **ROC Curve Plot**: The ROC curve is plotted to visualize the trade-off between the true positive rate and the false positive rate.
+
+### Test Set Evaluation
+
+The final LGBM model is also evaluated on the test set to ensure its generalizability:
+
+- **Prediction**: Predictions are made on the test data.
+
+- **Classification Report**: The performance metrics are calculated for the test set.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/test.png)
+
+- **ROC AUC Score**: The ROC AUC score is computed for the test set.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/ROC%20Curve%20-%20test%20data.png)
+
+- **ROC Curve Plot**: The ROC curve for the test set is plotted.
+
+- **Confusion Matrix**: The confusion matrix is plotted as a heatmap to visualize the model's performance in terms of actual vs. predicted labels.
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/Confusion%20matrix.png)
+
+## Conclusion
+
+### Training and Validation Performance
+
+The final LGBM model demonstrates strong performance on both the training and validation sets:
+
+- **Training Set Results**:
+  - Precision, recall, and F1-score for both classes are high, indicating a balanced performance in predicting both positive and negative classes.
+  - The overall accuracy is 87%, and the ROC AUC score is 0.9438, showing the model's excellent ability to distinguish between classes on the training data.
+
+- **Validation Set Results**:
+  - The validation set results are slightly better than the training set, with an accuracy of 89% and a ROC AUC score of 0.9615.
+  - This indicates that the model generalizes well to unseen data, maintaining a high level of performance.
+
+### Test Set Performance
+
+When applied to the test set, the model's performance is slightly lower:
+
+- **Test Set Results**:
+  - The overall accuracy is 80%, with a ROC AUC score of 0.8013.
+  - The precision and recall for the positive class are lower compared to the training and validation sets, suggesting some difficulty in accurately predicting positive cases in the test data.
+
+### Insights and Recommendations
+
+1. **Model Robustness**: The model shows robust performance on the training and validation sets, indicating that the chosen features and hyperparameters are effective.
+
+2. **Generalization**: The slightly lower performance on the test set suggests that while the model generalizes well, there may be some variability in new, unseen data. This could be due to differences in the distribution of the test data or the presence of more challenging cases.
+
+3. **Imbalanced Data**: The precision and recall for the positive class on the test set indicate that further handling of class imbalance might be beneficial. Techniques such as more extensive use of SMOTE, ensemble methods, or cost-sensitive learning could be explored.
+
+4. **Model Fine-Tuning**: Additional fine-tuning and testing with different hyperparameters, feature selection methods, or even different models could help improve the performance on the test set.
+
+Overall, the final LGBM model provides a strong foundation for predicting the target variable, with excellent performance on the training and validation sets and good performance on the test set. Continuous monitoring and fine-tuning will help maintain and potentially improve its predictive accuracy in a production environment.
+
+
+
