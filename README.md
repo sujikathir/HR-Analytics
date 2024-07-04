@@ -209,6 +209,13 @@ This shows that most individuals in the dataset have relevant experience.
 
 This suggests that the majority of individuals are not enrolled in any university.
 
+- **Target ratio for 0 vs 1**
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/9.%20target%20.png)
+
+   - 0.0: 75.00%
+   - 1.0: 25.00%
+     
 ### Target Summary with Categorical Columns
 
 The `target_summary_with_cat` function shows the relationship between the target variable and each categorical column. It provides the mean and count of the target variable for each category. For example:
@@ -309,3 +316,27 @@ This shows that individuals working in early-stage startups have a higher averag
 This indicates that individuals who have never changed their job have a higher average target value compared to those who have changed jobs more recently.
 
 The analysis helps in understanding the distribution of categorical features and their relationship with the target variable, which is crucial for handling imbalanced datasets and making informed decisions in the data preprocessing and modeling phases.
+
+## Target Summary with Numerical Columns
+
+This function calculates the average value of specified numerical columns grouped by the target variable.
+
+### city_development_index
+
+The `city_development_index` column shows the average value for each target class:
+
+- **Target 0.0**: 0.853093
+- **Target 1.0**: 0.756189
+
+This indicates that the average `city_development_index` is higher for observations with target value 0.0 compared to those with target value 1.0.
+
+### training_hours
+
+The `training_hours` column shows the average value for each target class:
+
+- **Target 0.0**: 66.205349
+- **Target 1.0**: 63.076094
+
+This suggests that the average `training_hours` are slightly higher for observations with target value 0.0 compared to those with target value 1.0.
+
+
