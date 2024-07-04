@@ -7,7 +7,7 @@ Dataset: https://www.kaggle.com/arashnic/hr-analytics-job-change-of-data-scienti
 - Required Libraries: Pandas, NumPy, Scikit-learn, LightGBM, Missingno, Matplotlib, Seaborn
 
 ## Usage
-- Clone the Repository: git clone https://github.com/your_username/hr-analytics.git
+- Clone the Repository: git clone https://github.com/sujikathir/HR-Analytics.git
 - Install Dependencies: pip install -r requirements.txt
 - Run Jupyter Notebooks: Navigate to notebooks and run jupyter notebook to execute the analysis and model building notebooks.
 
@@ -93,6 +93,7 @@ The dataset contains the following features:
 - **target**: 0 if not looking for a job change, 1 if looking for a job change (only in the training set)
 
 ### Data Types
+
 - `int64`: enrollee_id, training_hours
 - `float64`: city_development_index
 - `object`: city, gender, relevant_experience, enrolled_university, education_level, major_discipline, experience, company_size, company_type, last_new_job
@@ -100,29 +101,37 @@ The dataset contains the following features:
 ## Approach
 
 ### Step 1: Data Splitting
+
 The training dataset is divided into two parts for validation:
 - **train**: The main training set.
 - **test_X**: A subset of the training set (first 1000 rows) used for validation, with the target variable dropped.
 
 ### Step 2: Merging Datasets
+
 Merge the `train` and `test_X` datasets with the `test` set that already exists.
 
 ### Step 3: Feature Transformation
+
 Perform feature transformation to prepare the data for modeling.
 
 ### Step 4: Handling Missing Values
+
 Use KNN imputer to fill missing values in the dataset.
 
 ### Step 5: Model Selection and Training
+
 Use the Light GBM algorithm for prediction due to its efficiency and speed, especially with large datasets.
 
 ### Step 6: Model Evaluation
+
 Evaluate the model using log-loss and roc-auc score to prevent overfitting and ensure correct classification.
 
 ### Step 7: Prediction
+
 Predict the probability of a candidate working for the company on the test set.
 
 ## Initial Data Exploration
+
 The initial exploration of the training and test datasets involves checking the shape, data types, and missing values, as well as summarizing the quantiles of numerical features.
 
 # Imbalanced Dataset Analysis and Summary
@@ -133,9 +142,12 @@ This project involves analyzing an imbalanced dataset, identifying categorical a
 
 The dataset has the following characteristics:
 - **Observations**: 21,287
+
 - **Variables**: 14
+
 - **Imbalance in Target Variable**:
-  - 0.0: 63.94%
+
+   - 0.0: 63.94%
   - 1.0: 21.36%
 
 ## Column Categories
@@ -147,22 +159,31 @@ Columns are categorized into categorical, numerical, categorical but cardinal, a
 The `grab_col_names` function identifies and categorizes columns based on their data types and the number of unique values.
 
 - **Categorical Columns**: These columns contain categorical data, such as 'gender' and 'relevent_experience'.
+
 - **Numerical Columns**: These columns contain numerical data, such as 'city_development_index' and 'training_hours'.
+
 - **Categorical but Cardinal Columns**: These are categorical columns with a high number of unique values, such as 'city' and 'experience'.
+
 - **Numerical but Categorical Columns**: These are numerical columns that have a low number of unique values, such as 'enrollee_id' and 'target'.
 
 After running the function, the following column counts were identified:
 
-- **Categorical columns**: 10 columns, e.g., 'gender', 'relevent_experience'
-- **Numerical columns**: 2 columns, e.g., 'city_development_index', 'training_hours'
-- **Categorical but Cardinal columns**: 2 columns, e.g., 'city', 'experience'
-- **Numerical but Categorical columns**: 2 columns, e.g., 'enrollee_id', 'target'
+- **Categorical columns**: 10 columns
+
+- **Numerical columns**: 2 columns
+
+- **Categorical but Cardinal columns**: 2 columns
+
+- **Numerical but Categorical columns**: 2 columns
 
 ### Summary of Categorical Columns
 
 The `cat_summary` function provides a summary of each categorical column, including the count and ratio of each category. For example:
 
 - **Gender**:
+  
+  ![](https://github.com/sujikathir/HR-Analytics/blob/main/source/1.%20female%20vs%20male.png)
+  
   - Male: 68.97%
   - Female: 6.46%
   - Other: 1.01%
@@ -170,12 +191,18 @@ The `cat_summary` function provides a summary of each categorical column, includ
 This indicates that the majority of the observations are male.
 
 - **Relevant Experience**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/2.%20has%20relevant%20exp.png)
+
   - Has relevant experience: 71.95%
   - No relevant experience: 28.05%
 
 This shows that most individuals in the dataset have relevant experience.
 
 - **Enrolled University**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/3.%20enrolled%20university.png)
+
   - No enrollment: 72.04%
   - Full-time course: 19.69%
   - Part-time course: 6.30%
@@ -187,6 +214,9 @@ This suggests that the majority of individuals are not enrolled in any universit
 The `target_summary_with_cat` function shows the relationship between the target variable and each categorical column. It provides the mean and count of the target variable for each category. For example:
 
 - **Gender**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/1.1.%20female%20vs%20male.png)
+
   - Female: Target Mean = 0.261, Count = 1,171
   - Male: Target Mean = 0.228, Count = 12,532
   - Other: Target Mean = 0.258, Count = 178
@@ -194,12 +224,18 @@ The `target_summary_with_cat` function shows the relationship between the target
 This indicates that the average target value is slightly higher for females compared to males and others.
 
 - **Relevant Experience**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/2.2.%20has%20relevant%20exp.png)
+
   - Has relevant experience: Target Mean = 0.215, Count = 13,072
   - No relevant experience: Target Mean = 0.341, Count = 5,086
 
 This shows that individuals with no relevant experience have a higher average target value.
 
 - **Enrolled University**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/3.3.%20enrolled%20university.png)
+
   - Full-time course: Target Mean = 0.383, Count = 3,566
   - Part-time course: Target Mean = 0.251, Count = 1,146
   - No enrollment: Target Mean = 0.212, Count = 13,087
@@ -207,6 +243,9 @@ This shows that individuals with no relevant experience have a higher average ta
 This suggests that individuals enrolled in full-time courses have a higher average target value.
 
 - **Education Level**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/4.4.%20graduate.png)
+
   - Graduate: Target Mean = 0.281, Count = 10,990
   - Masters: Target Mean = 0.214, Count = 4,146
   - High School: Target Mean = 0.198, Count = 1,913
@@ -216,6 +255,9 @@ This suggests that individuals enrolled in full-time courses have a higher avera
 This indicates that individuals with a higher education level (Graduate) have a higher average target value, while those with a lower education level (Primary School) have a lower average target value.
 
 - **Major Discipline**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/5.5.%20STEM.png)
+
   - STEM: Target Mean = 0.262, Count = 13,738
   - Humanities: Target Mean = 0.216, Count = 629
   - Other: Target Mean = 0.273, Count = 362
@@ -226,6 +268,9 @@ This indicates that individuals with a higher education level (Graduate) have a 
 This shows that individuals with a STEM major have a slightly higher average target value compared to those with other majors.
 
 - **Company Size**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/6.6.%20Company%20size.png)
+
   - 10/49: Target Mean = 0.236, Count = 1,389
   - 100-500: Target Mean = 0.160, Count = 2,420
   - 1000-4999: Target Mean = 0.153, Count = 1,266
@@ -238,6 +283,9 @@ This shows that individuals with a STEM major have a slightly higher average tar
 This indicates that individuals working in smaller companies (10-49 employees) have a higher average target value compared to those in larger companies (100-500 employees).
 
 - **Company Type**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/7.7.%20company%20type.png)
+
   - Pvt Ltd: Target Mean = 0.181, Count = 9,300
   - Funded Startup: Target Mean = 0.139, Count = 953
   - Public Sector: Target Mean = 0.223, Count = 902
@@ -248,6 +296,9 @@ This indicates that individuals working in smaller companies (10-49 employees) h
 This shows that individuals working in early-stage startups have a higher average target value compared to those in other types of companies.
 
 - **Last New Job**:
+
+![](https://github.com/sujikathir/HR-Analytics/blob/main/source/8.8.%20last%20new%20job.png)
+
   - 1 year: Target Mean = 0.266, Count = 7,620
   - 2 years: Target Mean = 0.240, Count = 2,751
   - 3 years: Target Mean = 0.224, Count = 973
